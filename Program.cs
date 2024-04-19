@@ -14,6 +14,7 @@ namespace ConsoleConfigurationReader
             {
                 AddConfigurationFromFile($@"{_fileDirectory}\CorrectConfiguration.xml");
                 AddConfigurationFromFile($@"{_fileDirectory}\CorrectConfiguration.csv");
+                AddConfigurationFromFile($@"{_fileDirectory}\CorrectConfiguration.json");
             }
             catch
             {

@@ -27,6 +27,8 @@ namespace ConfigurationReader.Services
                     return DeserializeXMLFile<T>(filePath);
                 case ".csv":
                     return DeserializeCSVFile<T>(filePath);
+                case ".json":
+                    return DeserializeJSONFile<T>(filePath);
                 default:
                     throw new Exception();
             }
@@ -38,7 +40,8 @@ namespace ConfigurationReader.Services
         public static ReadOnlyCollection<string> SupportedExtensions = Array.AsReadOnly(new string[]
         {
             ".xml",
-            ".csv"
+            ".csv",
+            ".json"
         });
 
         /// <summary>
@@ -88,6 +91,17 @@ namespace ConfigurationReader.Services
             }
 
             return obj;
-        } 
+        }
+
+        /// <summary>
+        /// Десериализация JSON-файла
+        /// </summary>
+        /// <typeparam name="T">Тип выходного значения</typeparam>
+        /// <param name="path">Путь до файла</param>
+        /// <returns>Объект указанного типа</returns>
+        private static T DeserializeJSONFile<T>(string path)
+        {
+            return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+        }
     }
 }
