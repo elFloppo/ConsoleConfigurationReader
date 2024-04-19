@@ -1,10 +1,38 @@
-﻿namespace ConsoleConfigurationReader
+﻿using ConfigurationReader.Models;
+using ConfigurationReader.Services;
+
+namespace ConsoleConfigurationReader
 {
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        private static readonly string _fileDirectory = $@"{Environment.CurrentDirectory}\TestFiles";
+        private static List<Configuration> _configurations = new();
+
+        public static void Main()
         {
-            Console.WriteLine("Hello, World!");
+            try
+            {
+                AddConfigurationFromFile($@"{_fileDirectory}\CorrectConfiguration.xml");
+                AddConfigurationFromFile($@"{_fileDirectory}\CorrectConfiguration.csv");
+            }
+            catch
+            {
+                Console.WriteLine("Ошибка десериализации");
+            }
+
+            Console.ReadKey(true);
+        }
+
+        private static void AddConfigurationFromFile(string filePath)
+        {
+            var configuration = Deserializer.DeserializeFile<Configuration>(filePath);
+            _configurations.Add(configuration);
+
+            Console.WriteLine("Список конфигураций:");
+            foreach (var config in _configurations)
+                Console.WriteLine($"Name: {config.Name}, Description: {config.Description}");
+
+            Console.WriteLine();
         }
     }
 }
